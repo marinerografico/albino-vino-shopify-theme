@@ -26,13 +26,15 @@ npm-debug.log*
 preview*.html
 *.sh
 
-# Documentation (mantener README.md y guías importantes)
+# Documentation - Ignorar todos los .md excepto los importantes
+*.md
 !README.md
 !GUIA-*.md
 !CONECTAR-*.md
 !CONFIGURACION-*.md
 !INFORMACION-*.md
 !COMO-*.md
+!SOLUCION-*.md
 
 # ZIP files
 *.zip
