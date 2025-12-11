@@ -1,0 +1,193 @@
+{% schema %}
+{
+  "name": "Resultados de Búsqueda",
+  "settings": [
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "label": "Resultados por página",
+      "min": 8,
+      "max": 24,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_vendor",
+      "label": "Mostrar vendedor del producto",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_price",
+      "label": "Mostrar precio del producto",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+
+<div class="min-h-screen bg-stone-50">
+  <div class="lg:flex min-h-screen">
+    
+    {% section 'header' %}
+    
+    <main class="flex-1 w-full bg-white/50 backdrop-blur-sm min-w-0">
+      
+      <!-- Search Header -->
+      <section class="px-6 py-16 lg:px-24 border-b border-stone-200">
+        <div class="max-w-4xl mx-auto">
+          <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-stone-900 mb-8">
+            {% if search.performed %}
+              Resultados de búsqueda
+            {% else %}
+              Buscar
+            {% endif %}
+          </h1>
+          
+          <!-- Search Form -->
+          <form action="{{ routes.search_url }}" method="get" class="mb-8">
+            <div class="flex gap-4">
+              <input 
+                type="search" 
+                name="q" 
+                value="{{ search.terms | escape }}" 
+                placeholder="Buscar productos..." 
+                class="flex-1 px-6 py-4 border border-stone-300 rounded-xl focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 bg-white text-stone-900"
+                autofocus
+              >
+              <button 
+                type="submit" 
+                class="bg-stone-900 text-white px-8 py-4 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-red-600 transition-all duration-300 flex items-center gap-2"
+              >
+                <span class="iconify" data-icon="lucide:search" data-width="20"></span>
+                Buscar
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Search Results -->
+      {% if search.performed %}
+        {% if search.results_count > 0 %}
+          <section class="px-6 py-16 lg:px-24">
+            <div class="max-w-6xl mx-auto">
+              <p class="text-stone-600 mb-8">
+                Encontrados {{ search.results_count }} resultado{{ search.results_count | pluralize: '', 's' }} para "{{ search.terms | escape }}"
+              </p>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for item in search.results %}
+                  {% case item.object_type %}
+                    {% when 'product' %}
+                      <a href="{{ item.url }}" class="group">
+                        <div class="aspect-[3/4] bg-stone-100 rounded-lg overflow-hidden border border-stone-200 mb-4 group-hover:border-red-600 transition-colors">
+                          {% if item.featured_image %}
+                            <img 
+                              src="{{ item.featured_image | img_url: '400x' }}" 
+                              alt="{{ item.title }}"
+                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            >
+                          {% else %}
+                            <div class="w-full h-full flex items-center justify-center">
+                              <span class="text-stone-400 text-sm">Sin imagen</span>
+                            </div>
+                          {% endif %}
+                        </div>
+                        <h3 class="font-bold text-stone-900 mb-2 group-hover:text-red-600 transition-colors">
+                          {{ item.title }}
+                        </h3>
+                        {% if section.settings.show_product_price %}
+                          <p class="text-stone-600 font-medium">
+                            {{ item.price | money }}
+                          </p>
+                        {% endif %}
+                      </a>
+                    {% when 'article' %}
+                      <a href="{{ item.url }}" class="group block p-6 bg-white border border-stone-200 rounded-lg hover:border-red-600 transition-colors">
+                        <h3 class="font-bold text-stone-900 mb-2 group-hover:text-red-600 transition-colors">
+                          {{ item.title }}
+                        </h3>
+                        {% if item.excerpt %}
+                          <p class="text-stone-600 text-sm line-clamp-2">
+                            {{ item.excerpt | strip_html | truncatewords: 20 }}
+                          </p>
+                        {% endif %}
+                      </a>
+                    {% when 'page' %}
+                      <a href="{{ item.url }}" class="group block p-6 bg-white border border-stone-200 rounded-lg hover:border-red-600 transition-colors">
+                        <h3 class="font-bold text-stone-900 mb-2 group-hover:text-red-600 transition-colors">
+                          {{ item.title }}
+                        </h3>
+                        {% if item.content %}
+                          <p class="text-stone-600 text-sm line-clamp-2">
+                            {{ item.content | strip_html | truncatewords: 20 }}
+                          </p>
+                        {% endif %}
+                      </a>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            </div>
+          </section>
+        {% else %}
+          <!-- No Results -->
+          <section class="px-6 py-24 lg:px-24">
+            <div class="max-w-2xl mx-auto text-center">
+              <div class="mb-8">
+                <span class="iconify text-stone-300" data-icon="lucide:search-x" data-width="64"></span>
+              </div>
+              <h2 class="text-3xl font-bold text-stone-900 mb-4">
+                No se encontraron resultados
+              </h2>
+              <p class="text-stone-600 mb-8">
+                Tu búsqueda de "{{ search.terms | escape }}" no arrojó ningún resultado.
+              </p>
+              <div class="space-y-4">
+                <p class="text-sm text-stone-500 mb-6">Sugerencias:</p>
+                <ul class="text-left text-stone-600 space-y-2 max-w-md mx-auto">
+                  <li class="flex items-start gap-2">
+                    <span class="iconify text-red-600 flex-shrink-0 mt-1" data-icon="lucide:check" data-width="16"></span>
+                    Verifica la ortografía de las palabras
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="iconify text-red-600 flex-shrink-0 mt-1" data-icon="lucide:check" data-width="16"></span>
+                    Usa términos de búsqueda más generales
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="iconify text-red-600 flex-shrink-0 mt-1" data-icon="lucide:check" data-width="16"></span>
+                    Intenta con menos palabras clave
+                  </li>
+                </ul>
+                <a 
+                  href="{{ routes.all_products_collection_url }}" 
+                  class="inline-block bg-stone-900 text-white px-8 py-4 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-red-600 transition-all duration-300 mt-8"
+                >
+                  Ver todos los productos
+                </a>
+              </div>
+            </div>
+          </section>
+        {% endif %}
+      {% else %}
+        <!-- Initial State - No Search Yet -->
+        <section class="px-6 py-24 lg:px-24">
+          <div class="max-w-2xl mx-auto text-center">
+            <div class="mb-8">
+              <span class="iconify text-stone-300" data-icon="lucide:search" data-width="64"></span>
+            </div>
+            <h2 class="text-3xl font-bold text-stone-900 mb-4">
+              Busca productos, artículos y páginas
+            </h2>
+            <p class="text-stone-600 mb-8">
+              Escribe en el campo de búsqueda para encontrar lo que buscas.
+            </p>
+          </div>
+        </section>
+      {% endif %}
+      
+      {% section 'footer' %}
+    </main>
+  </div>
+</div>
