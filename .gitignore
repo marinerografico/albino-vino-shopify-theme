@@ -24,8 +24,15 @@ npm-debug.log*
 
 # Preview files (no necesarios en producción)
 preview*.html
-*.md
 *.sh
+
+# Documentation (mantener README.md y guías importantes)
+!README.md
+!GUIA-*.md
+!CONECTAR-*.md
+!CONFIGURACION-*.md
+!INFORMACION-*.md
+!COMO-*.md
 
 # ZIP files
 *.zip
