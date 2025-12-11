@@ -1,0 +1,50 @@
+{% schema %}
+{
+  "name": "Footer Albino Vino",
+  "settings": [
+    {
+      "type": "url",
+      "id": "legal_link",
+      "label": "Link Legal"
+    },
+    {
+      "type": "url",
+      "id": "privacy_link",
+      "label": "Link Privacidad"
+    },
+    {
+      "type": "url",
+      "id": "shipping_link",
+      "label": "Link Envíos"
+    },
+    {
+      "type": "text",
+      "id": "footer_text",
+      "label": "Texto Footer",
+      "default": "Beba con moderación."
+    }
+  ]
+}
+{% endschema %}
+
+<footer class="mt-20 pt-8 border-t border-stone-200 flex flex-col md:flex-row justify-between items-center text-[10px] text-stone-400 uppercase tracking-wide px-6 lg:px-24">
+  <div class="flex gap-6 mb-4 md:mb-0">
+    {% if section.settings.legal_link != blank %}
+      <a href="{{ section.settings.legal_link }}" class="hover:text-stone-900">Legal</a>
+    {% else %}
+      <a href="/policies/legal" class="hover:text-stone-900">Legal</a>
+    {% endif %}
+    {% if section.settings.privacy_link != blank %}
+      <a href="{{ section.settings.privacy_link }}" class="hover:text-stone-900">Privacidad</a>
+    {% else %}
+      <a href="/policies/privacy-policy" class="hover:text-stone-900">Privacidad</a>
+    {% endif %}
+    {% if section.settings.shipping_link != blank %}
+      <a href="{{ section.settings.shipping_link }}" class="hover:text-stone-900">Envíos</a>
+    {% else %}
+      <a href="/policies/shipping-policy" class="hover:text-stone-900">Envíos</a>
+    {% endif %}
+  </div>
+  <p>{{ section.settings.footer_text }}</p>
+</footer>
+

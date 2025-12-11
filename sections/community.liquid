@@ -1,0 +1,223 @@
+{% schema %}
+{
+  "name": "Comunidad",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título Sección",
+      "default": "Confesionario"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "URL Instagram"
+    },
+    {
+      "type": "text",
+      "id": "instagram_handle",
+      "label": "Handle Instagram",
+      "default": "@albinovino"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Título Formulario",
+      "default": "Suelta tu veneno"
+    },
+    {
+      "type": "textarea",
+      "id": "form_description",
+      "label": "Descripción Formulario",
+      "default": "Cuéntanos tu peor cita o tu mejor polvo (anónimo, relax)."
+    },
+    {
+      "type": "text",
+      "id": "form_button_text",
+      "label": "Texto Botón Formulario",
+      "default": "Enviar confesión"
+    },
+    {
+      "type": "text",
+      "id": "form_placeholder",
+      "label": "Placeholder Formulario",
+      "default": "Escribe aquí tus pecados..."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "community_post",
+      "name": "Post Comunidad",
+      "settings": [
+        {
+          "type": "select",
+          "id": "post_type",
+          "label": "Tipo de Post",
+          "options": [
+            { "value": "editorial", "label": "Editorial" },
+            { "value": "quote", "label": "Cita Comunidad" },
+            { "value": "downloadable", "label": "Descargable" }
+          ],
+          "default": "editorial"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Texto Badge",
+          "default": "Leer"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Cita (si tipo es quote)"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Autor (si tipo es quote)",
+          "default": "@usuario"
+        },
+        {
+          "type": "text",
+          "id": "downloadable_title",
+          "label": "Título Descargable"
+        },
+        {
+          "type": "text",
+          "id": "downloadable_subtitle",
+          "label": "Subtítulo Descargable"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Categoría",
+          "default": "Editorial"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (opcional)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}
+
+<!-- SECTION 5: COMMUNITY -->
+<section id="comunidad" class="px-6 py-24 lg:px-24 pb-32 bg-stone-50">
+  <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-stone-200 pb-6 fade-in-up" style="animation-play-state: paused;">
+    <h2 class="text-4xl md:text-6xl font-semibold tracking-tight text-stone-900">
+      {{ section.settings.title }}
+    </h2>
+    {% if section.settings.instagram_url != blank %}
+      <a href="{{ section.settings.instagram_url }}" target="_blank" class="hidden md:flex items-center gap-2 text-sm font-semibold tracking-normal hover:text-red-600 transition-colors mt-4 md:mt-0">
+        {{ section.settings.instagram_handle }}
+        <span class="iconify" data-icon="lucide:instagram" data-width="16"></span>
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 fade-in-up delay-100" style="animation-play-state: paused;">
+    {% for block in section.blocks %}
+      {% case block.settings.post_type %}
+        {% when 'editorial' %}
+          <article class="group cursor-pointer">
+            <a href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}" class="block">
+              <div class="aspect-square bg-white mb-5 overflow-hidden border border-stone-200 relative p-6 flex flex-col justify-center items-center text-center transition-all hover:shadow-md rounded-md">
+                <span class="text-[11px] font-medium border border-stone-900 px-3 py-1 rounded-full mb-4 text-stone-900 bg-transparent group-hover:bg-stone-900 group-hover:text-white transition-colors">
+                  {{ block.settings.badge_text }}
+                </span>
+                <h3 class="text-3xl font-serif italic group-hover:scale-105 transition-transform duration-500">
+                  {{ block.settings.title }}
+                </h3>
+              </div>
+              <h4 class="font-semibold text-xs text-stone-500">{{ block.settings.category }}</h4>
+            </a>
+          </article>
+
+        {% when 'quote' %}
+          <article class="group cursor-pointer md:mt-12">
+            <a href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}" class="block">
+              <div class="aspect-square bg-stone-900 text-white mb-5 overflow-hidden border border-stone-900 p-8 flex flex-col justify-center text-center relative shadow-xl rounded-md">
+                <span class="iconify absolute top-6 left-6 w-8 h-8 text-stone-700 stroke-1" data-icon="lucide:quote" data-width="32"></span>
+                <p class="text-lg font-light italic leading-relaxed">
+                  {{ block.settings.quote }}
+                </p>
+                <div class="w-8 h-[1px] bg-stone-700 mx-auto my-6"></div>
+                <span class="text-xs text-stone-400 block font-semibold tracking-normal">
+                  {{ block.settings.author }}
+                </span>
+              </div>
+              <h4 class="font-semibold text-xs text-stone-500">Voz de la comunidad</h4>
+            </a>
+          </article>
+
+        {% when 'downloadable' %}
+          <article class="group cursor-pointer">
+            <a href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}" class="block">
+              <div class="aspect-square bg-red-600 mb-5 overflow-hidden border border-red-600 relative flex items-center justify-center shadow-lg group-hover:bg-red-700 transition-colors rounded-md">
+                <div class="text-center p-6 text-white group-hover:scale-105 transition-transform duration-300">
+                  <span class="iconify w-8 h-8 mx-auto mb-4 opacity-80" data-icon="lucide:download" data-width="32"></span>
+                  <h3 class="text-3xl font-bold tracking-tight mb-2">
+                    {{ block.settings.downloadable_title }}
+                  </h3>
+                  <p class="text-sm opacity-90 font-mono">{{ block.settings.downloadable_subtitle }}</p>
+                </div>
+              </div>
+              <h4 class="font-semibold text-xs text-stone-500">Descargable</h4>
+            </a>
+          </article>
+      {% endcase %}
+    {% endfor %}
+  </div>
+
+  <!-- Input Form -->
+  <div class="bg-white p-8 border border-stone-200 fade-in-up delay-200 max-w-2xl mx-auto shadow-sm rounded-md" style="animation-play-state: paused;">
+    <div class="text-center mb-6">
+      <h3 class="text-xl font-bold mb-2">{{ section.settings.form_title }}</h3>
+      <p class="text-stone-500 text-sm">{{ section.settings.form_description }}</p>
+    </div>
+
+    {% form 'contact', class: 'space-y-4' %}
+      <input type="hidden" name="contact[subject]" value="Nueva confesión desde Albino Vino" />
+      
+      <textarea name="contact[body]" rows="3" 
+                class="w-full bg-stone-50 border border-stone-200 p-4 text-sm focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 placeholder:text-stone-400 resize-none transition-all rounded-md" 
+                placeholder="{{ section.settings.form_placeholder }}" required></textarea>
+      
+      <div class="flex justify-center">
+        <button type="submit" class="bg-stone-900 text-white px-8 py-3 text-sm font-semibold tracking-normal hover:bg-red-600 transition-colors rounded-sm">
+          {{ section.settings.form_button_text }}
+        </button>
+      </div>
+
+      {% if form.posted_successfully? %}
+        <p class="text-xs text-green-600 mt-2 text-center">Gracias por tu confesión.</p>
+      {% endif %}
+      {% if form.errors %}
+        <p class="text-xs text-red-600 mt-2 text-center">Ha ocurrido un error. Revisa los campos.</p>
+      {% endif %}
+    {% endform %}
+  </div>
+
+  <footer class="mt-24 pt-8 border-t border-stone-200 flex flex-col md:flex-row justify-between items-center text-[11px] text-stone-400 tracking-normal font-medium">
+    <div class="flex gap-8 mb-4 md:mb-0">
+      <a href="/policies/privacy-policy" class="hover:text-stone-900 transition-colors">Legal (aburrido)</a>
+      <a href="/policies/privacy-policy" class="hover:text-stone-900 transition-colors">Privacidad</a>
+      <a href="/pages/contact" class="hover:text-stone-900 transition-colors">Contacto</a>
+    </div>
+    <p>Beba con moderación (o no).</p>
+  </footer>
+</section>

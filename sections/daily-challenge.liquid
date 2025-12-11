@@ -1,0 +1,53 @@
+{% schema %}
+{
+  "name": "Retos Emocionales",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título Sección",
+      "default": "Reto del día"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Mostrar Sección",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "challenge",
+      "name": "Reto o Frase",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Frase o Reto Emocional"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 30
+}
+{% endschema %}
+
+{% if section.settings.show_section %}
+  {% assign total = section.blocks.size %}
+  {% if total > 0 %}
+    {% comment %} Usar fecha actual para selección pseudo-aleatoria {% endcomment %}
+    {% assign today = 'now' | date: '%s' | divided_by: 86400 %}
+    {% assign index = today | modulo: total %}
+    {% assign challenge = section.blocks[index] %}
+    
+    <section id="daily" class="px-6 py-16 lg:px-24 border-y border-stone-200 bg-stone-50/50">
+      <div class="max-w-4xl mx-auto fade-in-up">
+        <p class="text-[11px] uppercase tracking-[0.2em] mb-2 text-stone-500">{{ section.settings.title }}</p>
+        <p class="text-base md:text-lg leading-relaxed italic text-stone-800">
+          "{{ challenge.settings.text }}"
+        </p>
+      </div>
+    </section>
+  {% endif %}
+{% endif %}
+

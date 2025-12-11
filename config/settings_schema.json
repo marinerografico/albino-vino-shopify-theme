@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Theme settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Albino Vino Theme Settings"
+      },
+      {
+        "type": "text",
+        "id": "store_name",
+        "label": "Nombre de la Tienda",
+        "default": "Albino Vino"
+      },
+      {
+        "type": "color",
+        "id": "primary_color",
+        "label": "Color Primario",
+        "default": "#dc2626"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Color de Fondo",
+        "default": "#fafaf9"
+      }
+    ]
+  }
+]
+

@@ -1,0 +1,132 @@
+{% schema %}
+{
+  "name": "Header Albino Vino",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Texto Logo",
+      "default": "Albino."
+    },
+    {
+      "type": "text",
+      "id": "logo_subtext",
+      "label": "Subtítulo Logo",
+      "default": "Sin filtro desde 2024"
+    },
+    {
+      "type": "text",
+      "id": "menu_item_1",
+      "label": "Menú Item 1",
+      "default": "Edición \"Valentón\""
+    },
+    {
+      "type": "text",
+      "id": "menu_item_2",
+      "label": "Menú Item 2",
+      "default": "Manifiesto"
+    },
+    {
+      "type": "text",
+      "id": "menu_item_3",
+      "label": "Menú Item 3",
+      "default": "Impacto social"
+    },
+    {
+      "type": "text",
+      "id": "menu_item_4",
+      "label": "Menú Item 4",
+      "default": "Comunidad"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "URL Instagram"
+    },
+    {
+      "type": "url",
+      "id": "email_url",
+      "label": "URL Email"
+    },
+    {
+      "type": "text",
+      "id": "footer_text",
+      "label": "Texto Footer Sidebar",
+      "default": "© 2024 Albino. Hecho en Extremadura."
+    }
+  ]
+}
+{% endschema %}
+
+<!-- Sidebar Navigation (Fixed Desktop / Top Mobile) -->
+<aside class="lg:w-72 lg:h-screen lg:sticky lg:top-0 lg:border-b-0 lg:border-r flex flex-col transition-all duration-300 bg-stone-50/95 w-full z-50 border-stone-200 border-b backdrop-blur-md justify-between">
+  <!-- Mobile Header Bar -->
+  <div class="flex items-center justify-between px-6 py-4 lg:px-8 lg:py-8 lg:block">
+    <!-- Logo -->
+    <a href="/" class="group block">
+      <span class="group-hover:text-red-600 transition-colors duration-300 text-2xl font-bold tracking-tight font-space-grotesk">
+        {{ section.settings.logo_text }}
+      </span>
+      <span class="text-[11px] text-stone-400 block font-medium tracking-normal mt-1 group-hover:text-red-400">
+        {{ section.settings.logo_subtext }}
+      </span>
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden text-stone-900 hover:text-red-600 transition-colors p-1">
+      <span class="iconify" data-icon="lucide:menu" data-width="24"></span>
+    </button>
+  </div>
+
+  <!-- Navigation Links -->
+  <nav id="mobile-menu" class="hidden lg:flex flex-col gap-1 px-6 pb-6 lg:px-8 lg:py-4 w-full bg-stone-50 lg:bg-transparent border-b lg:border-0 border-stone-200 absolute lg:static top-full left-0 z-40 shadow-xl lg:shadow-none">
+    <div class="lg:space-y-6 space-y-3 py-4 lg:py-0">
+      <a href="#valenton" class="block hover:text-red-600 hover:pl-2 transition-all duration-300 text-sm font-medium text-stone-600 pl-2 border-l-2 border-transparent hover:border-red-600">
+        {{ section.settings.menu_item_1 }}
+      </a>
+      <a href="#manifiesto" class="block text-sm font-medium text-stone-600 hover:text-red-600 hover:pl-2 transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-red-600">
+        {{ section.settings.menu_item_2 }}
+      </a>
+      <a href="#impacto" class="block text-sm font-medium text-stone-600 hover:text-red-600 hover:pl-2 transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-red-600">
+        {{ section.settings.menu_item_3 }}
+      </a>
+      <a href="#comunidad" class="block text-sm font-medium text-stone-600 hover:text-red-600 hover:pl-2 transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-red-600">
+        {{ section.settings.menu_item_4 }}
+      </a>
+    </div>
+
+    <!-- Mobile Only Actions -->
+    <div class="lg:hidden mt-6 pt-6 border-t border-stone-200 flex items-center gap-6 justify-center pb-4">
+      {% if section.settings.instagram_url != blank %}
+        <a href="{{ section.settings.instagram_url }}" target="_blank" class="text-stone-400 hover:text-red-600 transition-colors">
+          <span class="iconify" data-icon="lucide:instagram" data-width="20"></span>
+        </a>
+      {% endif %}
+      {% if section.settings.email_url != blank %}
+        <a href="{{ section.settings.email_url }}" class="text-stone-400 hover:text-red-600 transition-colors">
+          <span class="iconify" data-icon="lucide:mail" data-width="20"></span>
+        </a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Footer / Socials (Desktop Only) -->
+  <div class="hidden lg:block px-8 py-8 space-y-6">
+    <div class="flex items-center gap-4">
+      {% if section.settings.instagram_url != blank %}
+        <a href="{{ section.settings.instagram_url }}" target="_blank" class="text-stone-400 hover:text-red-600 transition-colors">
+          <span class="iconify" data-icon="lucide:instagram" data-width="20"></span>
+        </a>
+      {% endif %}
+      {% if section.settings.email_url != blank %}
+        <a href="{{ section.settings.email_url }}" class="text-stone-400 hover:text-red-600 transition-colors">
+          <span class="iconify" data-icon="lucide:mail" data-width="20"></span>
+        </a>
+      {% endif %}
+    </div>
+    <p class="text-[11px] text-stone-400 leading-relaxed tracking-normal">
+      {{ section.settings.footer_text }}
+    </p>
+  </div>
+</aside>
+

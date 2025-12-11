@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page_title }} | Albino Vino</title>
+  
+  {{ content_for_header }}
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Iconify Script (for icons) -->
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Theme Styles -->
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+</head>
+<body class="bg-stone-50 text-stone-900 selection:bg-red-600 selection:text-white overflow-x-hidden">
+  
+  <!-- Age Gate (Visible by default, hidden by JS if verified) -->
+  <div id="age-gate" class="fixed inset-0 z-[100] bg-stone-950 flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500">
+    <div class="max-w-md w-full space-y-8">
+      <div class="space-y-4">
+        <span class="text-3xl font-bold text-white tracking-tight block">Albino.</span>
+        <div class="h-px w-12 bg-red-600 mx-auto"></div>
+        <p class="text-stone-400 text-lg font-light">Para entrar en el club de los inadaptados debes tener edad legal para beber.</p>
+      </div>
+      <h3 class="text-3xl font-serif italic text-white leading-tight">¿Eres mayor de 18 años?</h3>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+        <button id="btn-age-yes" class="bg-white text-stone-900 px-8 py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg">Sí, tengo sed</button>
+        <a href="https://www.google.com" class="bg-transparent border border-stone-700 text-stone-500 px-8 py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:border-stone-500 hover:text-stone-300 transition-all duration-300 flex items-center justify-center">Soy menor</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Layout Container -->
+  <div class="lg:flex min-h-screen">
+    
+    {% section 'header' %}
+    
+    <!-- Main Content Area -->
+    <main class="flex-1 w-full bg-white min-w-0">
+      {{ content_for_layout }}
+    </main>
+    
+  </div>
+  
+  {% section 'footer' %}
+  
+  <!-- Theme Scripts -->
+  {{ 'theme.js' | asset_url | script_tag }}
+  
+  {{ content_for_footer }}
+</body>
+</html>
+

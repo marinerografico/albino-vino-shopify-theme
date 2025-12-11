@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "about_section": {
+      "type": "about-us"
+    }
+  },
+  "order": [
+    "about_section"
+  ]
+}
+

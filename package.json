@@ -1,0 +1,16 @@
+{
+  "name": "albino-vino-theme",
+  "version": "1.0.0",
+  "description": "Tema Shopify para Albino Vino",
+  "scripts": {
+    "shopify:dev": "shopify theme dev",
+    "shopify:push": "shopify theme push",
+    "shopify:pull": "shopify theme pull",
+    "shopify:list": "shopify theme list",
+    "shopify:check": "shopify theme check"
+  },
+  "devDependencies": {
+    "@shopify/cli": "^3.87.4",
+    "@shopify/theme": "^3.58.2"
+  }
+}

@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Preview files (no necesarios en producción)
+preview*.html
+*.md
+*.sh
+
+# ZIP files
+*.zip
+
+# Shopify
+.shopify/
+
+# Environment
+.env
+.env.local

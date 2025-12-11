@@ -1,0 +1,141 @@
+/* Custom Styles for Albino Vino Theme */
+
+body { 
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 { 
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.025em;
+}
+
+.font-serif { 
+  font-family: 'Playfair Display', serif; 
+}
+
+.font-space-grotesk {
+  font-family: 'Space Grotesk', sans-serif !important;
+}
+
+/* Animations */
+.fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.delay-100 { 
+  animation-delay: 0.1s; 
+}
+
+.delay-200 { 
+  animation-delay: 0.2s; 
+}
+
+.delay-300 { 
+  animation-delay: 0.3s; 
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Hide Scrollbar */
+.no-scrollbar::-webkit-scrollbar { 
+  display: none; 
+}
+
+.no-scrollbar { 
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+}
+
+/* Custom radio inputs for pack selector */
+input[type="radio"]:checked + div {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+input[type="radio"]:checked + div .radio-indicator {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Icon settings */
+.iconify { 
+  display: inline-block; 
+  vertical-align: middle; 
+}
+
+/* Smooth interactions */
+.pack-selector { 
+  transition: all 0.2s ease-in-out; 
+}
+
+/* Shopify Form Styles */
+.shopify-section form input,
+.shopify-section form textarea,
+.shopify-section form select {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Cart Drawer Styles (if needed) */
+.cart-drawer {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Age Gate Styles */
+#age-gate {
+  backdrop-filter: blur(10px);
+}
+
+/* Tab button active state */
+.tab-button.active {
+  border-bottom-color: #0c0a09 !important;
+  color: #0c0a09 !important;
+}
+
+/* Product Pack Configurator Styles */
+.product-detail-page .variant-radio:checked + div {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.product-detail-page .variant-radio:checked + div .radio-indicator {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Hero Video Background */
+#hero-video {
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+/* Pack Image Transitions */
+#pack-img-1,
+#pack-img-3,
+#pack-img-6 {
+  transition: opacity 1s ease-in-out;
+}
+
+/* Mobile Menu Improvements */
+@media (max-width: 1023px) {
+  #mobile-menu {
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+}
+
+/* Smooth Scroll */
+html.scroll-smooth {
+  scroll-behavior: smooth;
+}

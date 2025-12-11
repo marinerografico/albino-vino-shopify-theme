@@ -1,0 +1,55 @@
+{% schema %}
+{
+  "name": "Manifiesto Albino",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline_line_1",
+      "label": "Línea 1 Título",
+      "default": "Vino de pueblo con"
+    },
+    {
+      "type": "text",
+      "id": "headline_italic",
+      "label": "Palabra en cursiva",
+      "default": "punk."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "Párrafo 1",
+      "default": "Valentón sale de cooperativas extremeñas donde se curra de sol a sol. Sin postureo. Si buscas \"notas de roble francés y retrogusto a vainilla\", chupa un mueble. Esto es uva, azúcar y ganas de llamar a quien no debes a las 3 a.m."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Párrafo 2",
+      "default": "Nos interesa que este vino te suelte la lengua. Valentón es un arma de liberación emocional en botella blanca, sin etiqueta, porque lo importante es lo que escondes dentro."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_3",
+      "label": "Párrafo 3",
+      "default": "Esto no es para brindar en bodas pijas. Es para beber en vasos de duralex mientras planeas tu próxima mala decisión."
+    }
+  ]
+}
+{% endschema %}
+
+<!-- SECTION 3: MANIFESTO -->
+<section id="manifiesto" class="px-6 py-24 lg:px-24 bg-stone-950 text-stone-50 overflow-hidden relative">
+  <div class="absolute top-0 right-0 w-96 h-96 bg-red-600/10 blur-[100px] rounded-full"></div>
+  <div class="max-w-2xl mx-auto space-y-12 relative z-10 fade-in-up" style="animation-play-state: paused;">
+    <div class="border-l-2 border-red-600 pl-6">
+      <h2 class="text-4xl md:text-5xl font-semibold leading-tight tracking-tight">
+        Manifiesto <br>
+        <span class="font-serif italic text-stone-400">Anti-Sommelier.</span>
+      </h2>
+    </div>
+    <div class="space-y-6 text-lg md:text-xl text-stone-300 font-light leading-relaxed">
+      <p>{{ section.settings.paragraph_1 }}</p>
+      <p>{{ section.settings.paragraph_2 }}</p>
+      <p>{{ section.settings.paragraph_3 }}</p>
+    </div>
+  </div>
+</section>

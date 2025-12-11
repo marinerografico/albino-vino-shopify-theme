@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-albino"
+    },
+    "product": {
+      "type": "product-ecstasis"
+    },
+    "manifesto": {
+      "type": "manifesto"
+    },
+    "impact": {
+      "type": "impact"
+    },
+    "community": {
+      "type": "community"
+    }
+  },
+  "order": [
+    "hero",
+    "product",
+    "manifesto",
+    "impact",
+    "community"
+  ]
+}
+

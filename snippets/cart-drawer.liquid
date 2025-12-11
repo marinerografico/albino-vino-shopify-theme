@@ -1,0 +1,73 @@
+{% comment %}
+  Snippet opcional para un carrito drawer personalizado
+  Puedes incluir esto en theme.liquid si quieres un carrito lateral
+{% endcomment %}
+
+<div id="cart-drawer" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300">
+  <div class="flex flex-col h-full">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6 border-b border-stone-200">
+      <h2 class="text-lg font-bold uppercase tracking-wide">Tu Altar</h2>
+      <button id="close-cart" class="text-stone-600 hover:text-red-600">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+    </div>
+    
+    <!-- Cart Items -->
+    <div class="flex-1 overflow-y-auto p-6">
+      <div id="cart-items">
+        {% if cart.item_count > 0 %}
+          {% for item in cart.items %}
+            <div class="flex gap-4 mb-6 pb-6 border-b border-stone-100">
+              <img src="{{ item.image | img_url: '150x' }}" alt="{{ item.title }}" class="w-20 h-20 object-cover" />
+              <div class="flex-1">
+                <h3 class="font-medium text-sm mb-1">{{ item.product.title }}</h3>
+                <p class="text-xs text-stone-500 mb-2">{{ item.variant.title }}</p>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium">{{ item.line_price | money }}</span>
+                  <input type="number" value="{{ item.quantity }}" min="0" class="w-16 text-center border border-stone-300 text-sm" />
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-center text-stone-500 py-12">Tu altar está vacío</p>
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="p-6 border-t border-stone-200">
+      <div class="flex justify-between mb-4">
+        <span class="font-medium">Total</span>
+        <span class="font-bold">{{ cart.total_price | money }}</span>
+      </div>
+      <a href="/checkout" class="block w-full bg-stone-950 text-white text-center py-4 text-xs uppercase tracking-widest hover:bg-red-600 transition-colors">
+        Ir al Checkout
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Toggle cart drawer
+  document.addEventListener('DOMContentLoaded', function() {
+    const cartButton = document.querySelector('[data-cart-toggle]');
+    const closeCart = document.getElementById('close-cart');
+    const cartDrawer = document.getElementById('cart-drawer');
+    
+    if (cartButton) {
+      cartButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        cartDrawer.classList.remove('translate-x-full');
+      });
+    }
+    
+    if (closeCart) {
+      closeCart.addEventListener('click', function() {
+        cartDrawer.classList.add('translate-x-full');
+      });
+    }
+  });
+</script>
+

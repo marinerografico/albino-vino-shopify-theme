@@ -1,0 +1,47 @@
+{
+  "general": {
+    "meta": {
+      "tags": "Etiquetas",
+      "tag": "Etiqueta"
+    },
+    "accessibility": {
+      "close": "Cerrar",
+      "skip_to_content": "Saltar al contenido"
+    },
+    "404": {
+      "title": "404 Página no encontrada",
+      "subtext": "La página que buscas no existe."
+    },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente"
+    },
+    "search": {
+      "search": "Buscar"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Añadir al Altar",
+      "sold_out": "Agotado",
+      "unavailable": "No disponible",
+      "on_sale": "En oferta",
+      "quantity": "Cantidad",
+      "back_to_collection": "Volver a la colección"
+    },
+    "cart": {
+      "title": "Carrito",
+      "items_count": {
+        "one": "{{ count }} artículo",
+        "other": "{{ count }} artículos"
+      },
+      "subtotal": "Subtotal",
+      "shipping_at_checkout": "El envío se calcula en el checkout",
+      "update": "Actualizar carrito",
+      "checkout": "Ir al Checkout",
+      "continue_shopping": "Seguir comprando",
+      "empty": "Tu altar está vacío"
+    }
+  }
+}
+

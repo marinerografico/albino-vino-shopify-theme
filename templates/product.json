@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "product_detail": {
+      "type": "product-detail",
+      "settings": {
+        "show_maridaje": true,
+        "show_impacto": true,
+        "show_related": true
+      }
+    }
+  },
+  "order": [
+    "product_detail"
+  ]
+}
