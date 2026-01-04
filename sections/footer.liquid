@@ -4,6 +4,21 @@
   "settings": [
     {
       "type": "url",
+      "id": "about_link",
+      "label": "Link Sobre Nosotros"
+    },
+    {
+      "type": "url",
+      "id": "faq_link",
+      "label": "Link FAQ"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Link Contacto"
+    },
+    {
+      "type": "url",
       "id": "legal_link",
       "label": "Link Legal"
     },
@@ -21,30 +36,80 @@
       "type": "text",
       "id": "footer_text",
       "label": "Texto Footer",
-      "default": "Beba con moderación."
+      "default": "© 2024 Albino. Hecho en Extremadura."
     }
   ]
 }
 {% endschema %}
 
-<footer class="mt-20 pt-8 border-t border-stone-200 flex flex-col md:flex-row justify-between items-center text-[10px] text-stone-400 uppercase tracking-wide px-6 lg:px-24">
-  <div class="flex gap-6 mb-4 md:mb-0">
-    {% if section.settings.legal_link != blank %}
-      <a href="{{ section.settings.legal_link }}" class="hover:text-stone-900">Legal</a>
-    {% else %}
-      <a href="/policies/legal" class="hover:text-stone-900">Legal</a>
-    {% endif %}
-    {% if section.settings.privacy_link != blank %}
-      <a href="{{ section.settings.privacy_link }}" class="hover:text-stone-900">Privacidad</a>
-    {% else %}
-      <a href="/policies/privacy-policy" class="hover:text-stone-900">Privacidad</a>
-    {% endif %}
-    {% if section.settings.shipping_link != blank %}
-      <a href="{{ section.settings.shipping_link }}" class="hover:text-stone-900">Envíos</a>
-    {% else %}
-      <a href="/policies/shipping-policy" class="hover:text-stone-900">Envíos</a>
-    {% endif %}
+<footer class="mt-20 pt-12 pb-8 border-t border-stone-200 bg-white">
+  <div class="max-w-6xl mx-auto px-6 lg:px-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      
+      <!-- Columna 1: Navegación Principal -->
+      <div>
+        <h3 class="text-sm font-bold uppercase tracking-widest text-stone-900 mb-4">Navegación</h3>
+        <nav class="space-y-3">
+          {% if section.settings.about_link != blank %}
+            <a href="{{ section.settings.about_link }}" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Sobre Nosotros</a>
+          {% else %}
+            <a href="/pages/about" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Sobre Nosotros</a>
+          {% endif %}
+          
+          {% if section.settings.faq_link != blank %}
+            <a href="{{ section.settings.faq_link }}" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">FAQ</a>
+          {% else %}
+            <a href="/pages/faq" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">FAQ</a>
+          {% endif %}
+          
+          {% if section.settings.contact_link != blank %}
+            <a href="{{ section.settings.contact_link }}" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Contacto</a>
+          {% else %}
+            <a href="/pages/contact" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Contacto</a>
+          {% endif %}
+        </nav>
+      </div>
+      
+      <!-- Columna 2: Legal -->
+      <div>
+        <h3 class="text-sm font-bold uppercase tracking-widest text-stone-900 mb-4">Legal</h3>
+        <nav class="space-y-3">
+          {% if section.settings.legal_link != blank %}
+            <a href="{{ section.settings.legal_link }}" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Aviso Legal</a>
+          {% else %}
+            <a href="/policies/legal" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Aviso Legal</a>
+          {% endif %}
+          
+          {% if section.settings.privacy_link != blank %}
+            <a href="{{ section.settings.privacy_link }}" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Privacidad</a>
+          {% else %}
+            <a href="/policies/privacy-policy" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Privacidad</a>
+          {% endif %}
+          
+          {% if section.settings.shipping_link != blank %}
+            <a href="{{ section.settings.shipping_link }}" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Envíos</a>
+          {% else %}
+            <a href="/policies/shipping-policy" class="block text-stone-600 hover:text-red-600 transition-colors text-sm">Envíos</a>
+          {% endif %}
+        </nav>
+      </div>
+      
+      <!-- Columna 3: Brand (Desktop only) -->
+      <div class="hidden lg:block">
+        <h3 class="text-sm font-bold uppercase tracking-widest text-stone-900 mb-4">Albino.</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">
+          Vino honesto para gente complicada. Hecho en Extremadura.
+        </p>
+      </div>
+      
+      <!-- Columna 4: Empty for spacing (Desktop only) -->
+      <div class="hidden lg:block"></div>
+    </div>
+    
+    <!-- Footer Bottom -->
+    <div class="pt-8 border-t border-stone-200 flex flex-col md:flex-row justify-between items-center text-xs text-stone-400 uppercase tracking-wide">
+      <p>{{ section.settings.footer_text }}</p>
+      <p class="mt-4 md:mt-0">Beba con moderación.</p>
+    </div>
   </div>
-  <p>{{ section.settings.footer_text }}</p>
 </footer>
-

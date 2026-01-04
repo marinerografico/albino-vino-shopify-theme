@@ -1,27 +1,29 @@
 {
   "sections": {
     "hero": {
-      "type": "hero-albino"
+      "type": "hero-albino",
+      "settings": {
+        "headline": "Albino. Valentín — No es solo vino. Es un acto de amor propio.",
+        "cta_text": "Comprar ahora",
+        "cta_link": "/products/valentin"
+      }
     },
-    "product": {
-      "type": "product-ecstasis"
+    "storytelling": {
+      "type": "storytelling",
+      "settings": {
+        "story_text": "Este vino no presume. Se ofrece. Lo importante está dentro."
+      }
     },
-    "manifesto": {
-      "type": "manifesto"
-    },
-    "impact": {
-      "type": "impact"
-    },
-    "community": {
-      "type": "community"
+    "product_featured": {
+      "type": "product-featured",
+      "settings": {
+        "cta_text": "Comprar ahora"
+      }
     }
   },
   "order": [
     "hero",
-    "product",
-    "manifesto",
-    "impact",
-    "community"
+    "storytelling",
+    "product_featured"
   ]
 }
-

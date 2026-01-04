@@ -4,112 +4,59 @@
   "settings": [
     {
       "type": "text",
-      "id": "edition_badge",
-      "label": "Badge Edición",
-      "default": "Edición Valentón"
-    },
-    {
-      "type": "text",
-      "id": "headline_line_1",
-      "label": "Línea 1 del Título",
-      "default": "Dulce como"
-    },
-    {
-      "type": "text",
-      "id": "headline_line_2",
-      "label": "Línea 2 del Título (cursiva)",
-      "default": "tu venganza."
-    },
-    {
-      "type": "textarea",
-      "id": "subtitle",
-      "label": "Subtítulo",
-      "default": "Tinto dulce, turbio y peligroso. Para beberte tus penas, celebrar tus pecados o regalárselo a quien te dejó en visto."
+      "id": "headline",
+      "label": "Frase Principal",
+      "default": "Albino. Valentín — No es solo vino. Es un acto de amor propio."
     },
     {
       "type": "text",
       "id": "cta_text",
-      "label": "Texto CTA",
-      "default": "Quiero pecar"
+      "label": "Texto Botón CTA",
+      "default": "Comprar ahora"
     },
     {
-      "type": "text",
-      "id": "shipping_text",
-      "label": "Texto Envío",
-      "default": "Envíos gratis, guapx."
-    },
-    {
-      "type": "video_url",
-      "id": "hero_video",
-      "label": "Video de Fondo (URL)",
-      "info": "URL de YouTube o Vimeo, o deja vacío para usar imagen"
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link del Botón CTA",
+      "default": "/products/valentin"
     },
     {
       "type": "image_picker",
       "id": "hero_image",
-      "label": "Imagen de Fondo (si no hay video)"
+      "label": "Imagen de Fondo (opcional)"
     }
   ]
 }
 {% endschema %}
 
-<!-- SECTION 1: HERO -->
-<section class="min-h-[90vh] flex flex-col lg:px-24 overflow-hidden border-stone-200 border-b pt-20 pr-6 pb-20 pl-6 relative justify-center">
-  <div class="absolute inset-0 w-full h-full overflow-hidden -z-20 pointer-events-none">
-    {% if section.settings.hero_video != blank %}
-      {% if section.settings.hero_video contains 'youtube.com' or section.settings.hero_video contains 'youtu.be' %}
-        {% assign video_id = section.settings.hero_video | split: '/' | last | split: '?' | first %}
-        <iframe class="w-full h-full object-cover opacity-20 mix-blend-multiply grayscale-[20%] contrast-125" 
-                src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&loop=1&playlist={{ video_id }}&mute=1&controls=0&showinfo=0&rel=0&iv_load_policy=3" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen></iframe>
-      {% elsif section.settings.hero_video contains 'vimeo.com' %}
-        {% assign video_id = section.settings.hero_video | split: '/' | last | split: '?' | first %}
-        <iframe class="w-full h-full object-cover opacity-20 mix-blend-multiply grayscale-[20%] contrast-125" 
-                src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1&loop=1&muted=1&background=1" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen></iframe>
-      {% else %}
-        <video id="hero-video" class="w-full h-full object-cover opacity-20 mix-blend-multiply grayscale-[20%] contrast-125 transition-opacity duration-700" muted playsinline autoplay loop>
-          <source src="{{ section.settings.hero_video }}" type="video/mp4">
-        </video>
-      {% endif %}
-    {% elsif section.settings.hero_image != blank %}
-      <img src="{{ section.settings.hero_image | img_url: '1920x' }}" 
-           alt="Hero background" 
-           class="w-full h-full object-cover opacity-20 mix-blend-multiply grayscale-[20%] contrast-125" />
-    {% endif %}
-    <div class="absolute inset-0 bg-gradient-to-b from-stone-50/90 via-transparent to-stone-50"></div>
-  </div>
+<!-- HERO SECTION -->
+<section class="min-h-[85vh] md:min-h-[90vh] flex flex-col items-center justify-center px-6 py-20 lg:px-24 relative overflow-hidden">
   
-  <!-- Abstract Red Stain Background -->
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-3xl -z-10 animate-pulse" style="animation-duration: 4s;"></div>
-
-  <div class="max-w-4xl mx-auto text-center space-y-8 fade-in-up" style="animation-play-state: running;">
-    <div class="inline-block px-3 py-1 border border-red-200 bg-red-50 rounded-full mb-4">
-      <span class="text-[10px] font-semibold text-red-600 tracking-wide uppercase flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
-        {{ section.settings.edition_badge }}
-      </span>
+  <!-- Background Image (optional) -->
+  {% if section.settings.hero_image != blank %}
+    <div class="absolute inset-0 w-full h-full -z-10">
+      <img 
+        src="{{ section.settings.hero_image | img_url: '1920x' }}" 
+        alt="Hero background" 
+        class="w-full h-full object-cover opacity-10"
+        loading="eager"
+      />
     </div>
-
-    <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-stone-900 leading-[1.1]">
-      {{ section.settings.headline_line_1 }} <br>
-      <span class="text-stone-400 font-serif italic">{{ section.settings.headline_line_2 }}</span>
+  {% endif %}
+  
+  <!-- Content -->
+  <div class="max-w-4xl mx-auto text-center space-y-8 fade-in-up">
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-stone-900 leading-[1.1]">
+      {{ section.settings.headline }}
     </h1>
-
-    <p class="text-lg md:text-xl text-stone-600 leading-relaxed max-w-lg mx-auto font-light">
-      {{ section.settings.subtitle }}
-    </p>
-
-    <div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
-      <a href="#valenton" class="bg-stone-900 text-white px-8 py-4 text-xs font-bold tracking-widest uppercase hover:bg-red-600 transition-all duration-300 shadow-lg shadow-stone-900/20 hover:shadow-red-600/30">Quiero pecar</a>
-      <span class="text-xs text-stone-400 font-medium flex items-center gap-1">
-        <span class="iconify" data-icon="lucide:truck" data-width="12"></span>
-        {{ section.settings.shipping_text }}
-      </span>
+    
+    <div class="pt-4">
+      <a 
+        href="{{ section.settings.cta_link | default: '/products/valentin' }}" 
+        class="inline-block bg-stone-900 text-white px-8 py-4 md:px-12 md:py-5 text-sm md:text-base font-bold tracking-widest uppercase hover:bg-red-600 transition-all duration-300 shadow-lg shadow-stone-900/20 hover:shadow-red-600/30 rounded-xl"
+      >
+        {{ section.settings.cta_text }}
+      </a>
     </div>
   </div>
 </section>

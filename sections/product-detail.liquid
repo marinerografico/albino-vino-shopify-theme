@@ -1,63 +1,31 @@
 {% schema %}
 {
-  "name": "Ficha de Producto - Valentón",
+  "name": "Producto Valentín",
   "settings": [
     {
-      "type": "text",
-      "id": "hero_video_url",
-      "label": "URL del Video Hero",
-      "default": "https://videos.pexels.com/video-files/5092659/5092659-hd_1920_1080_24fps.mp4"
-    },
-    {
-      "type": "text",
-      "id": "hero_badge_text",
-      "label": "Texto Badge Hero",
-      "default": "Edición Valentón"
-    },
-    {
-      "type": "text",
-      "id": "hero_title_line1",
-      "label": "Título Hero Línea 1",
-      "default": "Dulce como"
-    },
-    {
-      "type": "text",
-      "id": "hero_title_line2",
-      "label": "Título Hero Línea 2",
-      "default": "tu venganza."
-    },
-    {
       "type": "textarea",
-      "id": "hero_description",
-      "label": "Descripción Hero",
-      "default": "Tinto dulce, turbio y peligroso. Para beberte tus penas, celebrar tus pecados o regalárselo a quien te dejó en visto."
+      "id": "product_description",
+      "label": "Descripción del Producto",
+      "default": "Criado en Tierra de Barros, con manos curtidas y alma pura. Valentín no presume de etiquetas; revela lo que otros no ven. Tinto dulce, joven, con el carácter de quien elige lo desconocido — y se elige también."
     },
     {
       "type": "text",
-      "id": "product_subtitle",
-      "label": "Subtítulo del Producto",
-      "default": "Tinto dulce de uva garnacha suicida."
-    },
-    {
-      "type": "image_picker",
-      "id": "pack_image_1",
-      "label": "Imagen Pack 1 Botella"
-    },
-    {
-      "type": "image_picker",
-      "id": "pack_image_3",
-      "label": "Imagen Pack 3 Botellas"
-    },
-    {
-      "type": "image_picker",
-      "id": "pack_image_6",
-      "label": "Imagen Pack 6 Botellas"
+      "id": "cta_button_text",
+      "label": "Texto del Botón CTA",
+      "default": "Añadir al carrito — con packaging incluido"
     },
     {
       "type": "checkbox",
-      "id": "show_manifiesto",
-      "label": "Mostrar Sección Manifiesto",
+      "id": "show_stock_count",
+      "label": "Mostrar contador de stock (solo X disponibles)",
       "default": true
+    },
+    {
+      "type": "number",
+      "id": "low_stock_threshold",
+      "label": "Umbral de stock bajo",
+      "default": 10,
+      "info": "Muestra 'solo X disponibles' cuando el stock está por debajo de este número"
     }
   ]
 }
@@ -66,16 +34,6 @@
 {%- assign product = product | default: all_products[section.settings.featured_product] -%}
 
 <style>
-  /* Custom radio inputs for pack selection */
-  input[type="radio"]:checked + div {
-    border-color: #dc2626;
-    background-color: #fef2f2;
-  }
-  input[type="radio"]:checked + div .radio-indicator {
-    background-color: #fee2e2;
-    color: #b91c1c;
-  }
-  
   .fade-in-up {
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
@@ -85,417 +43,148 @@
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
+  
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .product-cta-button {
+      min-height: 56px; /* Larger tap target */
+      font-size: 14px;
+    }
+    
+    .product-image {
+      height: 70vh;
+      min-height: 500px;
+    }
+  }
 </style>
 
 <div class="product-detail-page">
   
-  <!-- SECTION 1: HERO -->
-  <section class="min-h-[90vh] flex flex-col lg:px-24 overflow-hidden border-stone-200 border-b pt-20 pr-6 pb-20 pl-6 relative justify-center">
-    <div class="absolute inset-0 w-full h-full overflow-hidden -z-20 pointer-events-none">
-      {% if section.settings.hero_video_url != blank %}
-        <video id="hero-video" class="w-full h-full object-cover opacity-20 mix-blend-multiply grayscale-[20%] contrast-125 transition-opacity duration-700" muted="" playsinline="" autoplay="" loop="">
-          <source src="{{ section.settings.hero_video_url }}" type="video/mp4">
-        </video>
-      {% endif %}
-      <div class="absolute inset-0 bg-gradient-to-b from-stone-50/90 via-transparent to-stone-50"></div>
-    </div>
-    
-    <!-- Abstract Red Stain Background -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-3xl -z-10 animate-pulse" style="animation-duration: 4s;"></div>
-
-    <div class="max-w-4xl mx-auto text-center space-y-8 fade-in-up" style="animation-play-state: running;">
-      <div class="inline-block px-3 py-1 border border-red-200 bg-red-50 rounded-full mb-4">
-        <span class="text-[10px] font-semibold text-red-600 tracking-wide uppercase flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
-          {{ section.settings.hero_badge_text }}
-        </span>
-      </div>
-
-      <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-stone-900 leading-[1.1]">
-        {{ section.settings.hero_title_line1 }} <br>
-        <span class="text-stone-400 font-serif italic">{{ section.settings.hero_title_line2 }}</span>
-      </h1>
-
-      <p class="text-lg md:text-xl text-stone-600 leading-relaxed max-w-lg mx-auto font-light">
-        {{ section.settings.hero_description }}
-      </p>
-
-      <div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a href="#valenton" class="bg-stone-900 text-white px-8 py-4 text-xs font-bold tracking-widest uppercase hover:bg-red-600 transition-all duration-300 shadow-lg shadow-stone-900/20 hover:shadow-red-600/30">Quiero pecar</a>
-        <span class="text-xs text-stone-400 font-medium flex items-center gap-1">
-          <span class="iconify" data-icon="lucide:truck" data-width="12"></span>
-          Envíos gratis, guapx.
-        </span>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 2: PRODUCT CONFIGURATOR -->
-  <section class="lg:px-0 border-stone-200 border-b relative bg-white" id="valenton">
+  <!-- PRODUCT SECTION - Mobile Optimized -->
+  <section class="lg:px-0 border-stone-200 border-b relative bg-white" id="product">
     <div class="grid grid-cols-1 lg:grid-cols-2">
       
-      <!-- Interactive Product Showcase (Sticky on Desktop) -->
-      <div class="relative h-[600px] lg:h-auto lg:min-h-screen bg-[#F0EEE6] flex items-center justify-center overflow-hidden lg:sticky lg:top-0 border-b lg:border-b-0 lg:border-r border-stone-200 group">
-        <div class="absolute inset-0 w-full h-full">
-          <div class="w-full h-full relative">
-            <!-- Pack Images - Use section settings or fallback to product images -->
-            {% assign pack1_img = section.settings.pack_image_1 | default: product.featured_image %}
-            {% assign pack3_img = section.settings.pack_image_3 | default: product.featured_image %}
-            {% assign pack6_img = section.settings.pack_image_6 | default: product.featured_image %}
-            
-            {% if pack1_img %}
-              <img src="{{ pack1_img | img_url: '1600x' }}" 
-                   alt="{{ product.title }} - Pack 1" 
-                   class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out z-20" 
-                   id="pack-img-1">
-            {% endif %}
-            
-            {% if pack3_img %}
-              <img src="{{ pack3_img | img_url: '1600x' }}" 
-                   id="pack-img-3" 
-                   alt="{{ product.title }} - Pack 3" 
-                   class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out opacity-0 z-20">
-            {% endif %}
-            
-            {% if pack6_img %}
-              <img src="{{ pack6_img | img_url: '1600x' }}" 
-                   id="pack-img-6" 
-                   alt="{{ product.title }} - Pack 6" 
-                   class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out opacity-0 z-20">
-            {% endif %}
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Details & Configuration -->
-      <div class="flex flex-col justify-center px-6 py-24 lg:px-20 lg:py-24 bg-white relative z-30">
-        <div class="max-w-lg w-full mx-auto space-y-12">
-          
-          <div class="space-y-2">
-            <div class="flex items-center gap-2 mb-4">
-              <span class="bg-red-50 text-red-600 px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest border border-red-100">Edición Limitada</span>
-              <div class="h-px bg-stone-100 flex-1"></div>
-            </div>
-            <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-stone-900">{{ product.title }}</h2>
-            <p class="text-lg text-stone-500 font-medium">{{ section.settings.product_subtitle }}</p>
-          </div>
-
-          <!-- Configurator -->
-          {% form 'product', product, id: 'product-form', class: 'space-y-6' %}
-            <div class="space-y-6">
-              <div class="flex justify-between items-end">
-                <span class="text-xs font-bold uppercase tracking-widest text-stone-900">Selecciona tu dosis</span>
-                <span class="text-[10px] text-stone-400">Envío en 24/48h</span>
-              </div>
-
-              <div class="grid gap-3" id="variant-selector">
-                {% comment %} Map variants to packs - assuming variants are named like "Pack 1", "Pack 3", "Pack 6" or have option values "1", "3", "6" {% endcomment %}
-                {% assign variant_pack_1 = null %}
-                {% assign variant_pack_3 = null %}
-                {% assign variant_pack_6 = null %}
-                
-                {% for variant in product.variants %}
-                  {% assign variant_title_lower = variant.title | downcase %}
-                  {% if variant_title_lower contains '1' or variant_title_lower contains 'solitario' %}
-                    {% assign variant_pack_1 = variant %}
-                  {% elsif variant_title_lower contains '3' or variant_title_lower contains 'trío' or variant_title_lower contains 'trio' %}
-                    {% assign variant_pack_3 = variant %}
-                  {% elsif variant_title_lower contains '6' or variant_title_lower contains 'multitud' or variant_title_lower contains 'orgía' or variant_title_lower contains 'orgia' %}
-                    {% assign variant_pack_6 = variant %}
-                  {% endif %}
-                {% endfor %}
-
-                {% comment %} If no variants found, use first available variant {% endcomment %}
-                {% if variant_pack_1 == null and variant_pack_3 == null and variant_pack_6 == null %}
-                  {% assign variant_pack_1 = product.selected_or_first_available_variant %}
-                {% endif %}
-
-                <!-- Option 1 -->
-                {% if variant_pack_1 != null %}
-                  <label class="relative cursor-pointer group">
-                    <input type="radio" name="id" value="{{ variant_pack_1.id }}" class="peer sr-only variant-radio" data-pack="1" {% if variant_pack_1 == product.selected_or_first_available_variant %}checked{% endif %}>
-                    <div class="hover:border-red-200 peer-checked:border-red-600 transition-all duration-200 flex bg-white border-stone-200 border rounded-xl pt-4 pr-4 pb-4 pl-4 shadow-sm items-center justify-between">
-                      <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-stone-100 radio-indicator flex items-center justify-center text-stone-600 font-mono text-sm font-bold transition-colors">1</div>
-                        <div class="">
-                          <div class="font-bold text-stone-900">Pack Solitario</div>
-                          <div class="text-xs text-stone-500">Para una noche de amor propio.</div>
-                        </div>
-                      </div>
-                      <div class="text-right">
-                        <div class="font-bold text-stone-900">{{ variant_pack_1.price | money }}</div>
-                        {% if variant_pack_1.compare_at_price > variant_pack_1.price %}
-                          <div class="text-[10px] text-stone-400 line-through">{{ variant_pack_1.compare_at_price | money }}</div>
-                        {% endif %}
-                      </div>
-                    </div>
-                  </label>
-                {% endif %}
-
-                <!-- Option 3 (Best Seller) -->
-                {% if variant_pack_3 != null %}
-                  <label class="relative cursor-pointer group">
-                    <input type="radio" name="id" value="{{ variant_pack_3.id }}" class="peer sr-only variant-radio" data-pack="3" {% if variant_pack_3 == product.selected_or_first_available_variant %}checked{% endif %}>
-                    <div class="hover:border-red-200 peer-checked:border-red-600 transition-all duration-200 flex overflow-hidden bg-white border-stone-200 border-2 rounded-xl pt-4 pr-4 pb-4 pl-4 relative shadow-sm items-center justify-between">
-                      <div class="absolute top-0 right-0 bg-red-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-widest">Recomendado</div>
-                      <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-stone-100 radio-indicator flex items-center justify-center text-stone-600 font-mono text-sm font-bold transition-colors">3</div>
-                        <div class="">
-                          <div class="font-bold text-stone-900">Pack Trío</div>
-                          <div class="text-xs text-stone-500">La santísima trinidad.</div>
-                        </div>
-                      </div>
-                      <div class="text-right">
-                        <div class="font-bold text-red-600">{{ variant_pack_3.price | money }}</div>
-                        {% if variant_pack_3.compare_at_price > variant_pack_3.price %}
-                          <div class="text-[10px] text-stone-400 line-through">{{ variant_pack_3.compare_at_price | money }}</div>
-                        {% endif %}
-                      </div>
-                    </div>
-                  </label>
-                {% endif %}
-
-                <!-- Option 6 -->
-                {% if variant_pack_6 != null %}
-                  <label class="relative cursor-pointer group">
-                    <input type="radio" name="id" value="{{ variant_pack_6.id }}" class="peer sr-only variant-radio" data-pack="6" {% if variant_pack_6 == product.selected_or_first_available_variant %}checked{% endif %}>
-                    <div class="hover:border-red-200 peer-checked:border-red-600 transition-all duration-200 flex bg-white border-stone-200 border rounded-xl pt-4 pr-4 pb-4 pl-4 shadow-sm items-center justify-between">
-                      <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-stone-100 radio-indicator flex items-center justify-center text-stone-600 font-mono text-sm font-bold transition-colors">6</div>
-                        <div class="">
-                          <div class="font-bold text-stone-900">Pack Multitud</div>
-                          <div class="text-xs text-stone-500">Para borrar memoria.</div>
-                        </div>
-                      </div>
-                      <div class="text-right">
-                        <div class="font-bold text-stone-900">{{ variant_pack_6.price | money }}</div>
-                        {% if variant_pack_6.compare_at_price > variant_pack_6.price %}
-                          <div class="text-[10px] text-stone-400 line-through">{{ variant_pack_6.compare_at_price | money }}</div>
-                        {% endif %}
-                      </div>
-                    </div>
-                  </label>
-                {% endif %}
-
-                {% comment %} Fallback: If no variants match, show standard variant selector {% endcomment %}
-                {% if variant_pack_1 == null and variant_pack_3 == null and variant_pack_6 == null %}
-                  {% for variant in product.variants %}
-                    <label class="relative cursor-pointer group">
-                      <input type="radio" name="id" value="{{ variant.id }}" class="peer sr-only variant-radio" {% if variant == product.selected_or_first_available_variant %}checked{% endif %}>
-                      <div class="hover:border-red-200 peer-checked:border-red-600 transition-all duration-200 flex bg-white border-stone-200 border rounded-xl pt-4 pr-4 pb-4 pl-4 shadow-sm items-center justify-between">
-                        <div class="flex items-center gap-4">
-                          <div class="w-10 h-10 rounded-full bg-stone-100 radio-indicator flex items-center justify-center text-stone-600 font-mono text-sm font-bold transition-colors">{{ forloop.index }}</div>
-                          <div class="">
-                            <div class="font-bold text-stone-900">{{ variant.title }}</div>
-                            <div class="text-xs text-stone-500">{{ product.title }}</div>
-                          </div>
-                        </div>
-                        <div class="text-right">
-                          <div class="font-bold text-stone-900">{{ variant.price | money }}</div>
-                          {% if variant.compare_at_price > variant.price %}
-                            <div class="text-[10px] text-stone-400 line-through">{{ variant.compare_at_price | money }}</div>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </label>
-                  {% endfor %}
-                {% endif %}
-              </div>
-            </div>
-
-            <!-- Footer / CTA -->
-            <div class="space-y-4 pt-4">
-              <div class="bg-stone-50 p-4 rounded-lg border border-stone-100 flex gap-3">
-                <span class="iconify text-stone-400 flex-shrink-0" data-icon="lucide:info" data-width="20"></span>
-                <p class="text-sm font-medium text-stone-600 transition-opacity duration-200" id="dynamic-microcopy" style="opacity: 1;">Para cuando te quieres querer a ti mismx. Una botella, una manta y cero dramas.</p>
-              </div>
-
-              <button type="submit" class="shadow-stone-900/10 hover:bg-red-600 hover:shadow-red-600/20 active:scale-[0.99] transition-all duration-300 flex uppercase text-sm font-bold text-white tracking-widest bg-stone-900 w-full rounded-xl pt-4 pb-4 shadow-xl gap-x-2 gap-y-2 items-center justify-center" id="cta-button" name="add">
-                <span>Beberme solx</span> 
-                <span class="iconify" data-icon="lucide:arrow-right" data-width="16"></span>
-              </button>
-
-              <div class="flex justify-center items-center gap-4 text-[10px] text-stone-400 uppercase tracking-wider font-medium">
-                <span class="flex items-center gap-1">
-                    <span class="iconify text-green-500" data-icon="lucide:check" data-width="12"></span>
-                    Stock Limitado
-                </span>
-                <span class="w-px h-3 bg-stone-300"></span>
-                <span>Envío Incluido</span>
-              </div>
-            </div>
-          {% endform %}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 3: MANIFESTO -->
-  {% if section.settings.show_manifiesto %}
-    <section id="manifiesto" class="px-6 py-24 lg:px-24 bg-stone-950 text-stone-50 overflow-hidden relative">
-      <div class="absolute top-0 right-0 w-96 h-96 bg-red-600/10 blur-[100px] rounded-full"></div>
-      <div class="max-w-2xl mx-auto space-y-12 relative z-10 fade-in-up" style="animation-play-state: paused;">
-        <div class="border-l-2 border-red-600 pl-6">
-          <h2 class="text-4xl md:text-5xl font-semibold leading-tight tracking-tight">
-            Manifiesto <br>
-            <span class="font-serif italic text-stone-400">Anti-Sommelier.</span>
-          </h2>
-        </div>
-        <div class="space-y-6 text-lg md:text-xl text-stone-300 font-light leading-relaxed">
-          {% if product.description != blank %}
-            {{ product.description }}
+      <!-- Product Image - Sticky on Desktop -->
+      <div class="relative product-image lg:h-auto lg:min-h-screen bg-[#F0EEE6] flex items-center justify-center overflow-hidden lg:sticky lg:top-0 border-b lg:border-b-0 lg:border-r border-stone-200">
+        <div class="w-full h-full relative">
+          {% if product.featured_image %}
+            <img 
+              src="{{ product.featured_image | img_url: '800x' }}" 
+              srcset="{{ product.featured_image | img_url: '400x' }} 400w, {{ product.featured_image | img_url: '800x' }} 800w, {{ product.featured_image | img_url: '1200x' }} 1200w"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              alt="{{ product.title }}" 
+              class="w-full h-full object-cover"
+              loading="eager"
+              fetchpriority="high"
+            >
           {% else %}
-            <p>Hacemos vino en cooperativas de Extremadura, con las manos sucias y el corazón limpio. Rescatamos uvas que otros tiran por "raras".</p>
-            <p>Nos interesa que este vino te suelte la lengua. Valentón es un arma de liberación emocional en botella blanca, sin etiqueta, porque lo importante es lo que escondes dentro.</p>
-            <p>Esto no es para brindar en bodas pijas. Es para beber en vasos de duralex mientras planeas tu próxima mala decisión.</p>
+            <div class="w-full h-full bg-stone-100 flex items-center justify-center">
+              <span class="text-stone-400">Imagen del producto</span>
+            </div>
           {% endif %}
         </div>
       </div>
-    </section>
-  {% endif %}
 
+      <!-- Product Details -->
+      <div class="flex flex-col justify-center px-6 py-12 md:py-24 lg:px-20 bg-white">
+        <div class="max-w-lg w-full mx-auto space-y-8">
+          
+          <!-- Product Title & Price -->
+          <div class="space-y-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="bg-red-50 text-red-600 px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest border border-red-100">Edición Valentín</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-stone-900">{{ product.title }}</h1>
+            <div class="flex items-baseline gap-4">
+              <span class="text-3xl font-light text-stone-900">{{ product.price | money }}</span>
+              {% if product.compare_at_price > product.price %}
+                <span class="text-lg text-stone-400 line-through">{{ product.compare_at_price | money }}</span>
+              {% endif %}
+            </div>
+            
+            <!-- Stock Counter -->
+            {% if section.settings.show_stock_count and product.selected_or_first_available_variant.inventory_quantity <= section.settings.low_stock_threshold and product.selected_or_first_available_variant.inventory_quantity > 0 %}
+              <div class="flex items-center gap-2 text-sm text-red-600 font-medium">
+                <span class="iconify" data-icon="lucide:alert-circle" data-width="16"></span>
+                <span>Solo {{ product.selected_or_first_available_variant.inventory_quantity }} disponible{{ product.selected_or_first_available_variant.inventory_quantity | pluralize: '', 's' }}</span>
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Product Description -->
+          <div class="space-y-4">
+            <p class="text-lg text-stone-700 leading-relaxed font-light">
+              {{ section.settings.product_description }}
+            </p>
+          </div>
+
+          <!-- Add to Cart Form -->
+          {% form 'product', product, id: 'product-form', class: 'space-y-6' %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            
+            <button 
+              type="submit" 
+              name="add"
+              class="product-cta-button w-full bg-stone-900 text-white px-8 py-5 text-sm font-bold tracking-widest uppercase hover:bg-red-600 active:scale-[0.99] transition-all duration-300 shadow-lg shadow-stone-900/20 hover:shadow-red-600/30 rounded-xl"
+              id="add-to-cart-button"
+            >
+              {{ section.settings.cta_button_text }}
+            </button>
+            
+            <!-- Shipping Info -->
+            <div class="flex justify-center items-center gap-4 text-xs text-stone-400 uppercase tracking-wider font-medium pt-2">
+              <span class="flex items-center gap-2">
+                <span class="iconify text-green-500" data-icon="lucide:check" data-width="14"></span>
+                Envío incluido
+              </span>
+              <span class="w-px h-4 bg-stone-300"></span>
+              <span>Packaging incluido</span>
+            </div>
+          {% endform %}
+
+          <!-- Additional Info -->
+          <div class="pt-4 border-t border-stone-100">
+            <div class="space-y-3 text-sm text-stone-600">
+              <p class="flex items-start gap-3">
+                <span class="iconify text-stone-400 flex-shrink-0 mt-0.5" data-icon="lucide:package" data-width="18"></span>
+                <span>Incluye botella + packaging completo</span>
+              </p>
+              <p class="flex items-start gap-3">
+                <span class="iconify text-stone-400 flex-shrink-0 mt-0.5" data-icon="lucide:truck" data-width="18"></span>
+                <span>Envío en 24/48h dentro de España</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <script>
-  // Pack Selection Logic
-  const packs = {
-      1: {
-          title: "Pack Solitario",
-          microcopy: "Para cuando te quieres querer a ti mismx. Una botella, una manta y cero dramas.",
-          cta: "Beberme solx",
-      },
-      3: {
-          title: "Pack Trío",
-          microcopy: "La santísima trinidad del desastre. Una para ti, dos para compartir, o tres para olvidar que es martes.",
-          cta: "Compartir el pecado",
-      },
-      6: {
-          title: "Pack Orgía",
-          microcopy: "Para borrar cinta o empezar una nueva religión. Si sobra, es que sois gente aburrida.",
-          cta: "Inaugurar poliamor",
-      }
-  };
-
-  function updateProduct(packId) {
-      const data = packs[packId];
-      const microcopyEl = document.getElementById('dynamic-microcopy');
-      const ctaBtn = document.getElementById('cta-button');
-      
-      if (!microcopyEl || !ctaBtn) return;
-      
-      // Fade out text
-      microcopyEl.style.opacity = '0.5';
-
-      setTimeout(() => {
-          // Update Text
-          microcopyEl.textContent = data.microcopy;
-          ctaBtn.innerHTML = `<span>${data.cta}</span> <span class="iconify" data-icon="lucide:arrow-right" data-width="16"></span>`;
-          microcopyEl.style.opacity = '1';
-      }, 150);
-  }
-
-  // Pack Image Update Logic
-  function updatePackImages(selectedPack) {
-      const images = {
-          '1': document.getElementById('pack-img-1'),
-          '3': document.getElementById('pack-img-3'),
-          '6': document.getElementById('pack-img-6')
-      };
-
-      Object.keys(images).forEach(key => {
-          const img = images[key];
-          if (!img) return;
-          
-          if (key === selectedPack) {
-              img.style.opacity = '1';
-          } else {
-              img.style.opacity = '0';
-          }
-      });
-  }
-
-  // Initialize on page load
+  // Form submission with loading state
   document.addEventListener('DOMContentLoaded', function() {
-      // Set up variant radio buttons
-      const variantRadios = document.querySelectorAll('.variant-radio');
-      const productForm = document.getElementById('product-form');
-      
-      variantRadios.forEach(radio => {
-          radio.addEventListener('change', function() {
-              const packId = this.getAttribute('data-pack');
-              const variantId = this.value;
-              
-              // Update hidden input for Shopify form (Shopify form handles this automatically, but we ensure it's set)
-              if (productForm) {
-                  // Shopify form will automatically use the checked radio's value
-                  // But we can also ensure the form is ready
-                  const formInputs = productForm.querySelectorAll('input[name="id"]');
-                  formInputs.forEach(input => {
-                      if (input.type === 'hidden') {
-                          input.value = variantId;
-                      }
-                  });
-              }
-              
-              if (packId) {
-                  updateProduct(packId);
-                  updatePackImages(packId);
-              }
-          });
+    const productForm = document.getElementById('product-form');
+    const addToCartButton = document.getElementById('add-to-cart-button');
+    
+    if (productForm && addToCartButton) {
+      productForm.addEventListener('submit', function(e) {
+        if (!addToCartButton.disabled) {
+          addToCartButton.disabled = true;
+          const originalText = addToCartButton.textContent;
+          addToCartButton.textContent = 'Añadiendo...';
+          addToCartButton.classList.add('opacity-75');
           
-          // Initialize with checked variant
-          if (radio.checked) {
-              const packId = radio.getAttribute('data-pack');
-              if (packId) {
-                  updateProduct(packId);
-                  updatePackImages(packId);
-              }
-          }
+          // Re-enable after delay in case of error
+          setTimeout(() => {
+            if (addToCartButton.disabled) {
+              addToCartButton.disabled = false;
+              addToCartButton.textContent = originalText;
+              addToCartButton.classList.remove('opacity-75');
+            }
+          }, 5000);
+        }
       });
-      
-      // Initialize default
-      const checkedRadio = document.querySelector('.variant-radio:checked');
-      if (checkedRadio) {
-          const packId = checkedRadio.getAttribute('data-pack');
-          if (packId) {
-              updateProduct(packId);
-              updatePackImages(packId);
-          }
-      }
-      
-      // Handle form submission with loading state
-      if (productForm) {
-          productForm.addEventListener('submit', function(e) {
-              const submitBtn = productForm.querySelector('button[type="submit"]');
-              if (submitBtn && !submitBtn.disabled) {
-                  submitBtn.disabled = true;
-                  const originalHTML = submitBtn.innerHTML;
-                  submitBtn.innerHTML = '<span>Añadiendo al carrito...</span>';
-                  
-                  // Re-enable after a delay in case of error (Shopify will handle redirect)
-                  setTimeout(() => {
-                      if (submitBtn.disabled) {
-                          submitBtn.disabled = false;
-                          submitBtn.innerHTML = originalHTML;
-                      }
-                  }, 5000);
-              }
-          });
-      }
-  });
-
-  // Animation Observer
-  const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-          if (entry.isIntersecting) {
-              entry.target.style.animationPlayState = 'running';
-              observer.unobserve(entry.target);
-          }
-      });
-  });
-  
-  document.querySelectorAll('.fade-in-up').forEach((el) => {
-      el.style.animationPlayState = 'paused';
-      observer.observe(el);
+    }
   });
 </script>

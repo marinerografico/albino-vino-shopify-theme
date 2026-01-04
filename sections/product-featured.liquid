@@ -1,0 +1,73 @@
+{% schema %}
+{
+  "name": "Producto Destacado",
+  "settings": [
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Producto a Mostrar"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto del Botón",
+      "default": "Comprar ahora"
+    }
+  ]
+}
+{% endschema %}
+
+{%- assign product = section.settings.featured_product | default: all_products.first -%}
+
+{% if product != blank %}
+<!-- FEATURED PRODUCT SECTION -->
+<section class="px-6 py-16 md:py-24 lg:px-24 border-b border-stone-200 bg-stone-50">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+      
+      <!-- Product Image -->
+      <div class="order-2 md:order-1">
+        {% if product.featured_image %}
+          <a href="{{ product.url }}">
+            <img 
+              src="{{ product.featured_image | img_url: '800x' }}" 
+              srcset="{{ product.featured_image | img_url: '400x' }} 400w, {{ product.featured_image | img_url: '800x' }} 800w"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              alt="{{ product.title }}" 
+              class="w-full h-auto rounded-lg"
+              loading="lazy"
+            >
+          </a>
+        {% endif %}
+      </div>
+      
+      <!-- Product Info -->
+      <div class="order-1 md:order-2 space-y-6">
+        <div>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-stone-900 mb-4">
+            {{ product.title }}
+          </h2>
+          <p class="text-xl md:text-2xl text-stone-600 font-light mb-6">
+            {{ product.price | money }}
+          </p>
+        </div>
+        
+        {% if product.description != blank %}
+          <p class="text-stone-700 leading-relaxed">
+            {{ product.description | strip_html | truncatewords: 30 }}
+          </p>
+        {% endif %}
+        
+        <div>
+          <a 
+            href="{{ product.url }}" 
+            class="inline-block bg-stone-900 text-white px-8 py-4 text-sm font-bold tracking-widest uppercase hover:bg-red-600 transition-all duration-300 shadow-lg rounded-xl"
+          >
+            {{ section.settings.cta_text }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
